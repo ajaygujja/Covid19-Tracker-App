@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
-    android:orientation="horizontal"
-    android:padding="5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="12dp"
+    app:cardBackgroundColor="#2a2b37"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:padding="5dp"
+    android:focusable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,17 +24,89 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/oswald"
             android:text="China"
-            android:textColor="#000"
+            android:padding="2dp"
+            android:textColor="#fff"
             android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/WorldDataCount"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="78455566"
-            android:textSize="20sp" />
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+
+
+                <TextView
+                    android:id="@+id/WorldDataCases"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="#DEffffff"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oswald_light"
+                    android:text="Cases :"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:id="@+id/WorldDataCasesCount"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="#DEffffff"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oswald_light"
+                    android:text="78455566"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+
+                <TextView
+
+                    android:id="@+id/WorldDataDeath"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oswald_light"
+                    android:text="Deaths :"
+                    android:textColor="#DEffffff"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/WorldDataDeathCount"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="#DEffffff"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oswald_light"
+                    android:text="78455566"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
 
     </LinearLayout>
 
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>

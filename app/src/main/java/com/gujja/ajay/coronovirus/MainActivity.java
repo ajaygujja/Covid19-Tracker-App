@@ -26,7 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    TextView totalDeath, totalDeathNum, totalCases, totalCasesNum;
+    TextView totalDeath, totalDeathNum, totalCases, totalCasesNum, totalRecovered, totalRecoveredData
+            , activePatient, activePatientData;
     ProgressBar progressBar;
     ArrayList<CovidCountry> covidCountries;
 
@@ -40,6 +41,10 @@ public class MainActivity extends AppCompatActivity {
         totalDeath = findViewById(R.id.TotalDeath);
         totalDeathNum = findViewById(R.id.TotalDeathData);
         progressBar = findViewById(R.id.Progressloader);
+        totalRecovered = findViewById(R.id.TotalRecovered);
+        totalRecoveredData = findViewById(R.id.TotalRecoveredData);
+        activePatient = findViewById(R.id.TotalActive);
+        activePatientData = findViewById(R.id.TotalActiveData);
 
         getData();
         detDataFromServer();
@@ -66,9 +71,13 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject data = jsonArray.getJSONObject(i);
                             String cases = data.getString("cases");
                             String country = data.getString("country");
-                            covidCountries.add(new CovidCountry(country, cases));
+//                            String recovered = data.getString("recovered");
+//                            String active = data.getString("active");
+                            String deaths = data.getString("deaths");
+                            covidCountries.add(new CovidCountry(country, cases,deaths));
                         }
 
+                        Log.e(TAG, "onResponse: "+ covidCountries );
                         RecyclerView WorldRecyclerView = findViewById(R.id.RecycleView);
                         WorldRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                         WorldDataAdapter worldDataAdapter = new WorldDataAdapter(MainActivity.this, covidCountries);
@@ -94,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getData() {
+
         progressBar.setVisibility(View.VISIBLE);
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -109,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
                     totalCasesNum.setText(jsonObject.getString("cases"));
                     totalDeathNum.setText(jsonObject.getString("deaths"));
+                    totalRecoveredData.setText(jsonObject.getString("recovered"));
+                    activePatientData.setText(jsonObject.getString("active"));
 
                     Log.i("TAG", "onResponse: " + jsonObject.getString("cases") + "Death: "
                             + jsonObject.getString("deaths"));

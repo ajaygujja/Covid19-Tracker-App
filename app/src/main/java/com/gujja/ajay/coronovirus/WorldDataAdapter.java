@@ -35,7 +35,8 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
     public void onBindViewHolder(@NonNull WorldDataViewHolder holder, int position) {
         CovidCountry covidCountry = covidCountries.get(position);
         holder.worldDataTitle.setText(covidCountry.getmCovidCountry());
-        holder.worldDataCount.setText(covidCountry.getmCovidCases());
+        holder.worldDataCasesCount.setText(covidCountry.getmCovidCases());
+        holder.worldDataDeathCount.setText(covidCountry.getmCovidDeath());
 
 
     }
@@ -46,13 +47,14 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
     }
 
     static class WorldDataViewHolder extends RecyclerView.ViewHolder {
-        TextView worldDataTitle, worldDataCount;
+        TextView worldDataTitle, worldDataDeathCount, worldDataCasesCount;
 
         WorldDataViewHolder(@NonNull View itemView) {
             super(itemView);
 
             worldDataTitle = itemView.findViewById(R.id.WorldDataName);
-            worldDataCount = itemView.findViewById(R.id.WorldDataCount);
+            worldDataDeathCount = itemView.findViewById(R.id.WorldDataDeathCount);
+            worldDataCasesCount = itemView.findViewById(R.id.WorldDataCasesCount);
         }
     }
 }
