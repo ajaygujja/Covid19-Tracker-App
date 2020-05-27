@@ -1,5 +1,6 @@
 package com.gujja.ajay.coronovirus;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +13,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+//import android.icu.text.NumberFormat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    TextView totalDeath, totalDeathNum, totalCases, totalCasesNum, totalRecovered, totalRecoveredData
+    TextView title, totalDeath, totalDeathNum, totalCases, totalCasesNum, totalRecovered, totalRecoveredData
             , activePatient, activePatientData;
     ProgressBar progressBar;
     ArrayList<CovidCountry> covidCountries;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        title = findViewById(R.id.Title);
         totalCases = findViewById(R.id.TotalCases);
         totalCasesNum = findViewById(R.id.TotalCasesData);
         totalDeath = findViewById(R.id.TotalDeath);
@@ -48,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
 
         getData();
         detDataFromServer();
+
+        title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,Deploy_Test.class);
+                MainActivity.this.startActivity(intent);
+            }
+        });
     }
 
     private void detDataFromServer() {
@@ -69,11 +84,13 @@ public class MainActivity extends AppCompatActivity {
                         JSONArray jsonArray = new JSONArray(response);
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject data = jsonArray.getJSONObject(i);
-                            String cases = data.getString("cases");
-                            String country = data.getString("country");
+                            DecimalFormat decimalFormat = new DecimalFormat("##,##,##0");
+
 //                            String recovered = data.getString("recovered");
 //                            String active = data.getString("active");
-                            String deaths = data.getString("deaths");
+                            String cases = decimalFormat.format(Integer.parseInt(data.getString("cases")));
+                            String country = data.getString("country");
+                            String deaths = decimalFormat.format(Integer.parseInt(data.getString("deaths")));
                             covidCountries.add(new CovidCountry(country, cases,deaths));
                         }
 
@@ -117,10 +134,21 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
 
-                    totalCasesNum.setText(jsonObject.getString("cases"));
-                    totalDeathNum.setText(jsonObject.getString("deaths"));
-                    totalRecoveredData.setText(jsonObject.getString("recovered"));
-                    activePatientData.setText(jsonObject.getString("active"));
+                    DecimalFormat decimalFormat = new DecimalFormat("##,##,##0");
+
+                    String cases = decimalFormat.format(Integer.parseInt(jsonObject.getString("cases")));
+                    String deaths = decimalFormat.format(Integer.parseInt(jsonObject.getString("deaths")));
+                    String recovered = decimalFormat.format(Integer.parseInt(jsonObject.getString("recovered")));
+                    String active = decimalFormat.format(Integer.parseInt(jsonObject.getString("active")));
+
+/*                    String casesData = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("cases")));
+                    String deaths = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("deaths")));
+                    String recovered = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("recovered")));
+                    String active = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("active")));*/
+                    totalCasesNum.setText(cases);
+                    totalDeathNum.setText(deaths);
+                    totalRecoveredData.setText(recovered);
+                    activePatientData.setText(active);
 
                     Log.i("TAG", "onResponse: " + jsonObject.getString("cases") + "Death: "
                             + jsonObject.getString("deaths"));
@@ -140,8 +168,6 @@ public class MainActivity extends AppCompatActivity {
         });
         queue.add(stringRequest);
 
-
     }
-
 
 }

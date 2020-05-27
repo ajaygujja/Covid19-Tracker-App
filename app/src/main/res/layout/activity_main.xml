@@ -17,6 +17,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -40,23 +41,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
-                android:gravity="center"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"
                 android:textColor="#DEffffff"
                 android:text="Total Cases :"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/TotalCasesData"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
+                android:fontFamily="@font/roboto"
                 android:text="184562"
-                android:textSize="24sp"
-                android:textColor="#DEffffff"
-                />
+                android:textColor="#FFBA00"
+                android:textSize="24sp" />
+
 
         </LinearLayout>
 
@@ -71,11 +73,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
-                android:gravity="center"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"
                 android:text="Total Death :"
                 android:textColor="#DEffffff"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/TotalDeathData"
@@ -83,9 +85,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
+                android:gravity="center"
+                android:fontFamily="@font/roboto"
                 android:text="184562"
-                android:textColor="#DEffffff"
+                android:textColor="#FA3C24"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -102,11 +105,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
-                android:gravity="center"
-                android:text="Total Recovered :"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"
+                android:text="Recovered :"
                 android:textColor="#DEffffff"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/TotalRecoveredData"
@@ -114,9 +117,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
+                android:gravity="center"
+                android:fontFamily="@font/roboto"
                 android:text="184562"
-                android:textColor="#DEffffff"
+                android:textColor="#4cd97b"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -132,11 +136,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
-                android:gravity="center"
+                android:fontFamily="@font/roboto"
+                android:gravity="end"
                 android:text="Active Cases :"
                 android:textColor="#DEffffff"
-                android:textSize="24sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/TotalActiveData"
@@ -144,9 +148,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:fontFamily="@font/oswald_light"
+                android:fontFamily="@font/roboto"
                 android:text="184562"
-                android:textColor="#DEffffff"
+                android:gravity="center"
+                android:textColor="#9059ff"
                 android:textSize="24sp" />
 
         </LinearLayout>
