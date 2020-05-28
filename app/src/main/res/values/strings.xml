@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CoronoVirus</string>
+    <string name="search_by_country">Search by Country</string>
 </resources>

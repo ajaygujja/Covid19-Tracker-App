@@ -2,8 +2,11 @@ package com.gujja.ajay.coronovirus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,10 +35,14 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+
     TextView title, totalDeath, totalDeathNum, totalCases, totalCasesNum, totalRecovered, totalRecoveredData
             , activePatient, activePatientData;
     ProgressBar progressBar;
+    EditText editText;
+
     ArrayList<CovidCountry> covidCountries;
+    WorldDataAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         totalRecoveredData = findViewById(R.id.TotalRecoveredData);
         activePatient = findViewById(R.id.TotalActive);
         activePatientData = findViewById(R.id.TotalActiveData);
+        editText = findViewById(R.id.search_country);
 
         getData();
         detDataFromServer();
@@ -63,6 +71,44 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
         });
+
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                filter(editable.toString());
+
+            }
+        });
+    }
+
+    private void filter(String country) {
+
+        ArrayList<CovidCountry> filteredCountries = new ArrayList<>();
+
+        for (CovidCountry item : covidCountries){
+            if(item.getmCovidCountry().toLowerCase().contains(country.toLowerCase())){
+                filteredCountries.add(item);
+            }
+        }
+
+        RecyclerView WorldRecyclerView = findViewById(R.id.RecycleView);
+        WorldRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        WorldDataAdapter worldDataAdapter = new WorldDataAdapter(MainActivity.this, covidCountries);
+        WorldRecyclerView.setAdapter(worldDataAdapter);
+
+        worldDataAdapter.filteredList(filteredCountries);
+
     }
 
     private void detDataFromServer() {

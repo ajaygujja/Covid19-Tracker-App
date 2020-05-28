@@ -28,7 +28,7 @@ class CovidCountry {
         return mCovidActive;
     }
 
-    public String getmCovidDeath() {
+    String getmCovidDeath() {
         return mCovidDeath;
     }
 }

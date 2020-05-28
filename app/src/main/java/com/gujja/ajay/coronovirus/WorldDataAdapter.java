@@ -46,6 +46,12 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
         return covidCountries.size();
     }
 
+    void filteredList(ArrayList<CovidCountry> filteredCountries) {
+
+        covidCountries = filteredCountries;
+        notifyDataSetChanged();
+    }
+
     static class WorldDataViewHolder extends RecyclerView.ViewHolder {
         TextView worldDataTitle, worldDataDeathCount, worldDataCasesCount;
 
