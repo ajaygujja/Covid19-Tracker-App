@@ -134,10 +134,16 @@ public class MainActivity extends AppCompatActivity {
 
 //                            String recovered = data.getString("recovered");
 //                            String active = data.getString("active");
+
+                            JSONObject imgUrl  = data.getJSONObject("countryInfo");
+                            Log.i(TAG, "onResponse: ajay" + imgUrl);
+
                             String cases = decimalFormat.format(Integer.parseInt(data.getString("cases")));
                             String country = data.getString("country");
+                            String countryFlagURL = imgUrl.getString("flag");
+                            Log.e(TAG, "onResponse: ajay"+ countryFlagURL );
                             String deaths = decimalFormat.format(Integer.parseInt(data.getString("deaths")));
-                            covidCountries.add(new CovidCountry(country, cases,deaths));
+                            covidCountries.add(new CovidCountry(country, cases,deaths,countryFlagURL));
                         }
 
                         Log.e(TAG, "onResponse: "+ covidCountries );

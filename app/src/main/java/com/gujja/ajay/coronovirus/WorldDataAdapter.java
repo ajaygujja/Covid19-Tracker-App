@@ -4,7 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -34,9 +37,12 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
     @Override
     public void onBindViewHolder(@NonNull WorldDataViewHolder holder, int position) {
         CovidCountry covidCountry = covidCountries.get(position);
+        String countryFlagUrl = covidCountry.getmCovidCountryImages();
+
         holder.worldDataTitle.setText(covidCountry.getmCovidCountry());
         holder.worldDataCasesCount.setText(covidCountry.getmCovidCases());
         holder.worldDataDeathCount.setText(covidCountry.getmCovidDeath());
+        Picasso.get().load(countryFlagUrl).fit().centerInside().into(holder.countryFlags);
 
 
     }
@@ -54,6 +60,7 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
 
     static class WorldDataViewHolder extends RecyclerView.ViewHolder {
         TextView worldDataTitle, worldDataDeathCount, worldDataCasesCount;
+        ImageView countryFlags;
 
         WorldDataViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,6 +68,8 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
             worldDataTitle = itemView.findViewById(R.id.WorldDataName);
             worldDataDeathCount = itemView.findViewById(R.id.WorldDataDeathCount);
             worldDataCasesCount = itemView.findViewById(R.id.WorldDataCasesCount);
+            countryFlags = itemView.findViewById(R.id.covCountryFlags);
+
         }
     }
 }
