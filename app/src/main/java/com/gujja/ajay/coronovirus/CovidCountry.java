@@ -1,22 +1,28 @@
 package com.gujja.ajay.coronovirus;
 
-class CovidCountry {
+public class CovidCountry {
 
-    private String mCovidCountry, mCovidCases, mCovidRecovered, mCovidActive, mCovidDeath , mCovidCountryImages;
+    private String mCovidCountry, mCovidCases, mCovidNewCases, mCovidDeath , mCovidCountryImages;
 
-    CovidCountry(String mCovidCountry, String mCovidCases, String mCovidDeath , String mCovidCountryImages ) {
+    CovidCountry(String mCovidCountry, String mCovidCases, String mCovidDeath , String mCovidCountryImages, String mCovidNewCases ) {
         this.mCovidCases = mCovidCases;
         this.mCovidCountry = mCovidCountry;
         this.mCovidDeath = mCovidDeath;
         this.mCovidCountryImages = mCovidCountryImages;
+        this.mCovidNewCases = mCovidNewCases;
 
+    }
+
+
+    public String getmCovidNewCases() {
+        return mCovidNewCases;
     }
 
     public String getmCovidCountryImages() {
         return mCovidCountryImages;
     }
 
-    String getmCovidCountry() {
+    public String getmCovidCountry() {
         return mCovidCountry;
     }
 
@@ -24,13 +30,7 @@ class CovidCountry {
         return mCovidCases;
     }
 
-    String getmCovidRecovered() {
-        return mCovidRecovered;
-    }
 
-    String getmCovidActive() {
-        return mCovidActive;
-    }
 
     String getmCovidDeath() {
         return mCovidDeath;

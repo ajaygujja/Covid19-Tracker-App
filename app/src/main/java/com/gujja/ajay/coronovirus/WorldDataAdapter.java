@@ -18,6 +18,16 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
 
     private final Context context;
     private ArrayList<CovidCountry> covidCountries;
+    private OnItemClickListener covidListener;
+
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        covidListener = listener;
+    }
 
 
     WorldDataAdapter(Context context, ArrayList<CovidCountry> covidCountries) {
@@ -31,7 +41,7 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.activity_world_data_list, parent, false);
 
-        return new WorldDataViewHolder(view);
+        return new WorldDataViewHolder(view,covidListener);
     }
 
     @Override
@@ -42,6 +52,7 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
         holder.worldDataTitle.setText(covidCountry.getmCovidCountry());
         holder.worldDataCasesCount.setText(covidCountry.getmCovidCases());
         holder.worldDataDeathCount.setText(covidCountry.getmCovidDeath());
+//        holder.worldNewCasesData.setText(covidCountry.getmCovidNewCases());
         Picasso.get().load(countryFlagUrl).fit().centerInside().into(holder.countryFlags);
 
 
@@ -59,17 +70,32 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
     }
 
     static class WorldDataViewHolder extends RecyclerView.ViewHolder {
-        TextView worldDataTitle, worldDataDeathCount, worldDataCasesCount;
+        TextView worldDataTitle, worldDataDeathCount, worldDataCasesCount, worldNewCasesData;
         ImageView countryFlags;
 
-        WorldDataViewHolder(@NonNull View itemView) {
+        WorldDataViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             worldDataTitle = itemView.findViewById(R.id.WorldDataName);
             worldDataDeathCount = itemView.findViewById(R.id.WorldDataDeathCount);
             worldDataCasesCount = itemView.findViewById(R.id.WorldDataCasesCount);
+//            worldNewCasesData = itemView.findViewById(R.id.newCases);
             countryFlags = itemView.findViewById(R.id.covCountryFlags);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener!= null ){
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            listener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
+
+
+
 }

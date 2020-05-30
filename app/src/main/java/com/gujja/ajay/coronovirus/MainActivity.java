@@ -16,39 +16,39 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-//import android.icu.text.NumberFormat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-
 import java.util.ArrayList;
-import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainActivity extends AppCompatActivity {
+//import android.icu.text.NumberFormat;
 
+public class MainActivity extends AppCompatActivity implements WorldDataAdapter.OnItemClickListener {
+
+    public static final String COUNTRY_NAME = "countryName";
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    TextView title, totalDeath, totalDeathNum, totalCases, totalCasesNum, totalRecovered, totalRecoveredData
-            , activePatient, activePatientData;
+    TextView title, totalDeath, totalDeathNum, totalCases, totalCasesNum, totalRecovered, totalRecoveredData, activePatient, activePatientData;
     ProgressBar progressBar;
+    boolean linearLayout;
     EditText editText;
 
     ArrayList<CovidCountry> covidCountries;
-    WorldDataAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        linearLayout = findViewById(R.id.mainLayout).requestFocus();
         title = findViewById(R.id.Title);
         totalCases = findViewById(R.id.TotalCases);
         totalCasesNum = findViewById(R.id.TotalCasesData);
@@ -61,13 +61,14 @@ public class MainActivity extends AppCompatActivity {
         activePatientData = findViewById(R.id.TotalActiveData);
         editText = findViewById(R.id.search_country);
 
+
         getData();
         detDataFromServer();
 
         title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,Deploy_Test.class);
+                Intent intent = new Intent(MainActivity.this, Deploy_Test.class);
                 MainActivity.this.startActivity(intent);
             }
         });
@@ -96,8 +97,9 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<CovidCountry> filteredCountries = new ArrayList<>();
 
-        for (CovidCountry item : covidCountries){
-            if(item.getmCovidCountry().toLowerCase().contains(country.toLowerCase())){
+        for (int i = 0; i < covidCountries.size(); i++) {
+            CovidCountry item = covidCountries.get(i);
+            if (item.getmCovidCountry().toLowerCase().contains(country.toLowerCase())) {
                 filteredCountries.add(item);
             }
         }
@@ -113,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void detDataFromServer() {
 
-        String url = "https://disease.sh/v2/countries?yesterday=false&sort=cases&allowNull=false";
+        String url = "https://disease.sh/v2/countries?yesterday=true&sort=cases&allowNull=false";
 
         covidCountries = new ArrayList<>();
 
@@ -135,22 +137,25 @@ public class MainActivity extends AppCompatActivity {
 //                            String recovered = data.getString("recovered");
 //                            String active = data.getString("active");
 
-                            JSONObject imgUrl  = data.getJSONObject("countryInfo");
-                            Log.i(TAG, "onResponse: ajay" + imgUrl);
+                            JSONObject imgUrl = data.getJSONObject("countryInfo");
+
 
                             String cases = decimalFormat.format(Integer.parseInt(data.getString("cases")));
+                            String new_cases = decimalFormat.format(Integer.parseInt(data.getString("todayCases")));
                             String country = data.getString("country");
                             String countryFlagURL = imgUrl.getString("flag");
-                            Log.e(TAG, "onResponse: ajay"+ countryFlagURL );
+
                             String deaths = decimalFormat.format(Integer.parseInt(data.getString("deaths")));
-                            covidCountries.add(new CovidCountry(country, cases,deaths,countryFlagURL));
+
+                            covidCountries.add(new CovidCountry(country, cases, deaths, countryFlagURL,new_cases));
                         }
 
-                        Log.e(TAG, "onResponse: "+ covidCountries );
+                        Log.e(TAG, "onResponse: " + covidCountries);
                         RecyclerView WorldRecyclerView = findViewById(R.id.RecycleView);
                         WorldRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                         WorldDataAdapter worldDataAdapter = new WorldDataAdapter(MainActivity.this, covidCountries);
                         WorldRecyclerView.setAdapter(worldDataAdapter);
+                        worldDataAdapter.setOnItemClickListener(MainActivity.this);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -193,10 +198,6 @@ public class MainActivity extends AppCompatActivity {
                     String recovered = decimalFormat.format(Integer.parseInt(jsonObject.getString("recovered")));
                     String active = decimalFormat.format(Integer.parseInt(jsonObject.getString("active")));
 
-/*                    String casesData = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("cases")));
-                    String deaths = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("deaths")));
-                    String recovered = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("recovered")));
-                    String active = NumberFormat.getInstance().format(Integer.parseInt(jsonObject.getString("active")));*/
                     totalCasesNum.setText(cases);
                     totalDeathNum.setText(deaths);
                     totalRecoveredData.setText(recovered);
@@ -222,4 +223,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Intent  detailIntent = new Intent(this, Deploy_Test.class);
+        CovidCountry detailCountry = covidCountries.get(position);
+
+        detailIntent.putExtra(COUNTRY_NAME,detailCountry.getmCovidCountry());
+        Log.e(TAG, "onItemClick: " + covidCountries.get(position) );
+
+        startActivity(detailIntent);
+    }
 }
