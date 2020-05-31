@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,7 +30,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import android.icu.text.NumberFormat;
 
 public class MainActivity extends AppCompatActivity implements WorldDataAdapter.OnItemClickListener {
 
@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
     RecyclerView WorldRecycleView;
     WorldDataAdapter worldDataAdapter;
     RecyclerView.LayoutManager mlayoutManager;
+    ArrayList<CovidCountry> filteredCountries;
 
+    int ajay = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +67,11 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
         editText = findViewById(R.id.search_country);
 
 
+
         getData();
         detDataFromServer();
         buildRecycleView();
+        Log.e(TAG, "filter: " + ajay );
 
 
         editText.addTextChangedListener(new TextWatcher() {
@@ -97,14 +101,18 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
     }
 
     private void filter(String country) {
-        ArrayList<CovidCountry> filteredCountries = new ArrayList<>();
+        filteredCountries = new ArrayList<>();
 
         for(CovidCountry item: covidCountries){
             if (item.getmCovidCountry().toLowerCase().contains(country.toLowerCase())) {
 
+                ajay = 1;
                 filteredCountries.add(item);
+                Log.e(TAG, "filter: " + ajay );
+
             }
         }
+
 
         worldDataAdapter.filteredList(filteredCountries);
 
@@ -210,6 +218,8 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
             @Override
             public void onErrorResponse(VolleyError error) {
                 progressBar.setVisibility(View.GONE);
+                Toast.makeText(MainActivity.this , "Something Went Wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this , "Restart the app", Toast.LENGTH_SHORT).show();
                 Log.d("Error response", error.toString());
 
             }
@@ -220,11 +230,17 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
 
     @Override
     public void onItemClick(int position) {
-        Intent  detailIntent = new Intent(this, Deploy_Test.class);
-        CovidCountry detailCountry = covidCountries.get(position);
 
-        detailIntent.putExtra(COUNTRY_NAME,detailCountry.getmCovidCountry());
-        Log.e(TAG, "onItemClick: " + covidCountries.get(position) );
+        Intent  detailIntent = new Intent(this, Deploy_Test.class);
+        Log.e(TAG, "onclick: " + ajay );
+
+        if (filteredCountries != null){
+            CovidCountry covidCountry = filteredCountries.get(position);
+            detailIntent.putExtra(COUNTRY_NAME,covidCountry.getmCovidCountry());
+        }else {
+            CovidCountry detailCountry = covidCountries.get(position);
+            detailIntent.putExtra(COUNTRY_NAME,detailCountry.getmCovidCountry());
+        }
 
         startActivity(detailIntent);
     }

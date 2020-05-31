@@ -88,6 +88,7 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
                     if (listener!= null ){
                         int position = getAdapterPosition();
 
+
                         if(position != RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
                         }
@@ -96,7 +97,5 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
             });
         }
     }
-
-
 
 }
