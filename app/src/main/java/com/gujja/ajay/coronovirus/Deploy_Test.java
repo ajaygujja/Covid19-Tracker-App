@@ -2,6 +2,7 @@ package com.gujja.ajay.coronovirus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +20,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,7 +35,9 @@ public class Deploy_Test extends AppCompatActivity {
 
 
     private static final String TAG = "TAG";
-    TextView clickedCountryDeath, clickCountryName, clickedCountryCases,clickedCountryRecovered, clickedCountryActive, clickedCountrySerious;
+    TextView clickedCountryDeath, clickCountryName, clickedCountryCases,
+            clickedCountryRecovered, clickedCountryActive, clickedCountrySerious,
+            clickedCountryNewCases, clickedCountryNewDeaths, updatedDate_Time ;
     CircleImageView clickedCountryFlag;
 
 
@@ -47,8 +54,9 @@ public class Deploy_Test extends AppCompatActivity {
         clickedCountryActive = findViewById(R.id.ClickedCountryActive);
         clickedCountryRecovered = findViewById(R.id.clickedCountryRecovered);
         clickedCountrySerious = findViewById(R.id.ClickedCountrySerious);
-
-//        CovidCountry covidCountry = new CovidCountry()
+        clickedCountryNewCases = findViewById(R.id.ClickedCountryNewCases);
+        clickedCountryNewDeaths = findViewById(R.id.ClickedCountryNewDeath);
+        updatedDate_Time = findViewById(R.id.updateTime);
 
         Intent intent = getIntent();
         String countryName = intent.getStringExtra(COUNTRY_NAME);
@@ -79,18 +87,25 @@ public class Deploy_Test extends AppCompatActivity {
                             DecimalFormat decimalFormat = new DecimalFormat("##,##,##0");
 
                             clickCountryName.setText(data.getString("country"));
-                            Log.e(TAG, "onResponse: 00"+ clickCountryName );
                             clickedCountryCases.setText(decimalFormat.format(Integer.parseInt(data.getString("cases"))));
                             clickedCountryDeath.setText(decimalFormat.format(Integer.parseInt(data.getString("deaths"))));
                             clickedCountryActive.setText(decimalFormat.format(Integer.parseInt(data.getString("active"))));
+                            clickedCountryNewCases.setText(decimalFormat.format(Integer.parseInt(data.getString("todayCases"))));
+                            clickedCountryNewDeaths.setText(decimalFormat.format(Integer.parseInt(data.getString("todayDeaths"))));
                             clickedCountryRecovered.setText(decimalFormat.format(Integer.parseInt(data.getString("recovered"))));
                             clickedCountrySerious.setText(decimalFormat.format(Integer.parseInt(data.getString("critical"))));
+
+                            String updateTime = data.getString("updated").substring(0,10);
+
+                            Log.e(TAG, "onResponse: " + updateTime );
+                            String updatedAtText ="Updated at: "+  new SimpleDateFormat("hh:mm a dd-MMM ", Locale.ENGLISH).format(new Date(Long.parseLong(updateTime)*1000L));
+
+                            updatedDate_Time.setText(updatedAtText);
 
                             JSONObject imgUrl = data.getJSONObject("countryInfo");
                             String countryFlagUrl = imgUrl.getString("flag");
 
                             Picasso.get().load(countryFlagUrl).fit().centerInside().into(clickedCountryFlag);
-
 
                         }
                     }

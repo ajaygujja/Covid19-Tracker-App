@@ -30,7 +30,7 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
     }
 
 
-    WorldDataAdapter(Context context, ArrayList<CovidCountry> covidCountries) {
+    public WorldDataAdapter(Context context, ArrayList<CovidCountry> covidCountries) {
         this.covidCountries = covidCountries;
         this.context = context;
     }
@@ -46,15 +46,15 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
 
     @Override
     public void onBindViewHolder(@NonNull WorldDataViewHolder holder, int position) {
+
         CovidCountry covidCountry = covidCountries.get(position);
         String countryFlagUrl = covidCountry.getmCovidCountryImages();
 
         holder.worldDataTitle.setText(covidCountry.getmCovidCountry());
         holder.worldDataCasesCount.setText(covidCountry.getmCovidCases());
         holder.worldDataDeathCount.setText(covidCountry.getmCovidDeath());
-//        holder.worldNewCasesData.setText(covidCountry.getmCovidNewCases());
-        Picasso.get().load(countryFlagUrl).fit().centerInside().into(holder.countryFlags);
 
+        Picasso.get().load(countryFlagUrl).fit().centerInside().into(holder.countryFlags);
 
     }
 
@@ -63,23 +63,23 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
         return covidCountries.size();
     }
 
-    void filteredList(ArrayList<CovidCountry> filteredCountries) {
-
-        covidCountries = filteredCountries;
+    public void filteredList(ArrayList<CovidCountry> filteredCountries) {
+        covidCountries = new ArrayList<>();
+        covidCountries.addAll(filteredCountries);
         notifyDataSetChanged();
     }
 
-    static class WorldDataViewHolder extends RecyclerView.ViewHolder {
+
+    public static class WorldDataViewHolder extends RecyclerView.ViewHolder {
         TextView worldDataTitle, worldDataDeathCount, worldDataCasesCount, worldNewCasesData;
         ImageView countryFlags;
 
-        WorldDataViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
+        public WorldDataViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             worldDataTitle = itemView.findViewById(R.id.WorldDataName);
             worldDataDeathCount = itemView.findViewById(R.id.WorldDataDeathCount);
             worldDataCasesCount = itemView.findViewById(R.id.WorldDataCasesCount);
-//            worldNewCasesData = itemView.findViewById(R.id.newCases);
             countryFlags = itemView.findViewById(R.id.covCountryFlags);
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +87,7 @@ public class WorldDataAdapter extends RecyclerView.Adapter<WorldDataAdapter.Worl
                 public void onClick(View view) {
                     if (listener!= null ){
                         int position = getAdapterPosition();
+
                         if(position != RecyclerView.NO_POSITION){
                             listener.onItemClick(position);
                         }

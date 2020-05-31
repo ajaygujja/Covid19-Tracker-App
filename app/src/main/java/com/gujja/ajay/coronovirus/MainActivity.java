@@ -38,17 +38,20 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
 
     TextView title, totalDeath, totalDeathNum, totalCases, totalCasesNum, totalRecovered, totalRecoveredData, activePatient, activePatientData;
     ProgressBar progressBar;
-    boolean linearLayout;
     EditText editText;
 
     ArrayList<CovidCountry> covidCountries;
+    RecyclerView WorldRecycleView;
+    WorldDataAdapter worldDataAdapter;
+    RecyclerView.LayoutManager mlayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        linearLayout = findViewById(R.id.mainLayout).requestFocus();
+
         title = findViewById(R.id.Title);
         totalCases = findViewById(R.id.TotalCases);
         totalCasesNum = findViewById(R.id.TotalCasesData);
@@ -64,50 +67,44 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
 
         getData();
         detDataFromServer();
+        buildRecycleView();
 
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Deploy_Test.class);
-                MainActivity.this.startActivity(intent);
-            }
-        });
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
                 filter(editable.toString());
-
             }
         });
     }
 
-    private void filter(String country) {
+    private void buildRecycleView() {
+        WorldRecycleView = findViewById(R.id.RecycleView);
+        WorldRecycleView.setHasFixedSize(true);
+        mlayoutManager = new LinearLayoutManager(this);
+        worldDataAdapter = new WorldDataAdapter(this,covidCountries);
 
+        WorldRecycleView.setLayoutManager(mlayoutManager);
+        WorldRecycleView.setAdapter(worldDataAdapter);
+    }
+
+    private void filter(String country) {
         ArrayList<CovidCountry> filteredCountries = new ArrayList<>();
 
-        for (int i = 0; i < covidCountries.size(); i++) {
-            CovidCountry item = covidCountries.get(i);
+        for(CovidCountry item: covidCountries){
             if (item.getmCovidCountry().toLowerCase().contains(country.toLowerCase())) {
+
                 filteredCountries.add(item);
             }
         }
-
-        RecyclerView WorldRecyclerView = findViewById(R.id.RecycleView);
-        WorldRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        WorldDataAdapter worldDataAdapter = new WorldDataAdapter(MainActivity.this, covidCountries);
-        WorldRecyclerView.setAdapter(worldDataAdapter);
 
         worldDataAdapter.filteredList(filteredCountries);
 
@@ -151,10 +148,8 @@ public class MainActivity extends AppCompatActivity implements WorldDataAdapter.
                         }
 
                         Log.e(TAG, "onResponse: " + covidCountries);
-                        RecyclerView WorldRecyclerView = findViewById(R.id.RecycleView);
-                        WorldRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-                        WorldDataAdapter worldDataAdapter = new WorldDataAdapter(MainActivity.this, covidCountries);
-                        WorldRecyclerView.setAdapter(worldDataAdapter);
+
+                        WorldRecycleView.setAdapter(worldDataAdapter);
                         worldDataAdapter.setOnItemClickListener(MainActivity.this);
 
                     } catch (JSONException e) {

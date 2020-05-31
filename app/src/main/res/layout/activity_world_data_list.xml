@@ -14,26 +14,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/covCountryFlags"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/joker"
+            android:layout_gravity="center"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/covCountryFlags"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/joker"
-                android:layout_gravity="center"
-                app:civ_border_width="2dp"
-                app:civ_border_color="#FF000000"/>
 
             <TextView
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="10dp"
                 android:id="@+id/WorldDataName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,94 +41,96 @@
                 android:gravity="center"
                 android:layout_gravity="center_vertical"
                 android:text="China"
-                android:padding="2dp"
                 android:textColor="#fff"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/WorldDataCases"
+                        android:layout_width="wrap_content"
+
+                        android:textColor="#DEffffff"
+                        android:layout_marginStart="10dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/oswald_light"
+                        android:text="Cases :"
+                        android:textSize="18sp" />
+
+
+                    <TextView
+                        android:id="@+id/WorldDataCasesCount"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:textColor="#FFCA28"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/oswald_light"
+                        android:text="78455566"
+                        android:textSize="18sp" />
+
+
+                    <!--<TextView
+                        android:id="@+id/newCases"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_arrow_upward"
+                        android:textColor="#FFCA28"
+                        android:layout_gravity="center"
+                        android:textSize="15sp"
+                        android:layout_marginStart="2dp"
+                        />-->
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+
+                        android:id="@+id/WorldDataDeath"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/oswald_light"
+                        android:text="Deaths :"
+                        android:textColor="#DEffffff"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/WorldDataDeathCount"
+                        android:layout_width="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:textColor="#FF1744"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/oswald_light"
+                        android:text="78455566"
+                        android:textSize="18sp" />
+
+
+                </LinearLayout>
 
         </LinearLayout>
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                >
-
-
-                <TextView
-                    android:id="@+id/WorldDataCases"
-                    android:layout_width="wrap_content"
-
-                    android:textColor="#DEffffff"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/oswald_light"
-                    android:text="Cases :"
-                    android:textSize="18sp" />
-
-
-                <TextView
-                    android:id="@+id/WorldDataCasesCount"
-                    android:layout_width="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="#FFCA28"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/oswald_light"
-                    android:text="78455566"
-                    android:textSize="18sp" />
-
-
-                <!--<TextView
-                    android:id="@+id/newCases"
-                    android:layout_width="wrap_content"
-                    android:gravity="center"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_arrow_upward"
-                    android:textColor="#FFCA28"
-                    android:layout_gravity="center"
-                    android:textSize="15sp"
-                    android:layout_marginStart="2dp"
-                    />-->
-
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-
-                <TextView
-
-                    android:id="@+id/WorldDataDeath"
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/oswald_light"
-                    android:text="Deaths :"
-                    android:textColor="#DEffffff"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/WorldDataDeathCount"
-                    android:layout_width="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:textColor="#FF1744"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/oswald_light"
-                    android:text="78455566"
-                    android:textSize="18sp" />
-
-
-            </LinearLayout>
 
 
 
